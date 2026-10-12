@@ -242,7 +242,7 @@ class ChatWindow(QWidget):
         self._saludo = (f"<i>¡Hola! Soy {NOMBRE_ASISTENTE}. "
                         f"¿En qué te puedo ayudar?</i>")
         historial_chat.purgar_vacias()
-        self._abrir_ultima_o_nueva()
+        self._nueva_conversacion()
         self._crear_atajos()
 
     # ---------------- historial de conversaciones ----------------

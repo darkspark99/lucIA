@@ -502,6 +502,18 @@ INSTALL_CMD_RE = re.compile(
     r"apt(?:-get)?\s+install|dnf\s+install|pacman\s+-S"
     r")\s+([A-Za-z0-9._+:-]+)")
 
+# "Abre una terminal/consola": se resuelve sin pasar por el LLM, que a
+# veces confundia abrir_terminal con abrir_web y lanzaba una busqueda web.
+_TERMINAL_WORDS = ("terminal", "consola", "shell", "bash",
+                   "linea de comandos", "línea de comandos", "konsole",
+                   "kterm")
+_TERMINAL_ABRE_RE = re.compile(
+    r"\b(abre|abrir|abreme|ábreme|abrime|ábrime|lanza|lanzar|"
+    r"inicia|iniciar)\b")
+_TERMINAL_CMD_RE = re.compile(
+    r"\b(?:y\s+|que\s+)?(?:ejecuta|ejecutar|corre|correr|corriendo|"
+    r"lanza|lanzar|que\s+ejecute|para\s+ejecutar)\s+(.+)$", re.I)
+
 _NOMBRES_IDIOMA = {"es": "español", "en": "English", "ca": "català"}
 
 
@@ -624,7 +636,8 @@ SYSTEM_PROMPT = (
     "su salida para resumirla. Úsala SIEMPRE que el usuario mencione "
     "archivos, documentos, carpetas, comandos de terminal (para ejecutarlos), "
     "procesos, red o cualquier operación sobre el sistema.\n"
-    "- abrir_terminal: abre una ventana de terminal visible.\n"
+    "- abrir_terminal: abre una ventana de terminal visible. Úsala SIEMPRE "
+    "que el usuario pida abrir una terminal, consola, shell o konsole.\n"
     "- buscar_paquetes: recomienda programas del sistema. Usa UN término en "
     "inglés técnico (una sola palabra: image, photo, video, music, office, "
     "game) porque los repositorios usan inglés. NUNCA frases.\n"
@@ -642,7 +655,8 @@ SYSTEM_PROMPT = (
     "destinatario, asunto y texto cuando el usuario los diga; si falta "
     "algún dato, el sistema lo pregunta.\n"
     "- abrir_web: abre un sitio o página web en el navegador (youtube, "
-    "wikipedia, una dirección web concreta...).\n"
+    "wikipedia, una dirección web concreta...). NO la uses para abrir "
+    "programas ni para abrir una terminal o consola.\n"
     "- buscar_internet: el usuario quiere buscar algo en la web ('busca "
     "recetas de cocina', 'investiga cómo se cultiva el café'); abre los "
     "resultados de búsqueda en el navegador.\n"
@@ -683,6 +697,8 @@ SYSTEM_PROMPT = (
     "absolutas.\n"
     "9. Dentro de los comandos agrupa con comillas simples "
     "(p. ej. -iname '*apuntes*'), NUNCA dobles, para que el JSON sea válido.\n"
+    "10. Abrir una terminal o consola es SIEMPRE abrir_terminal. abrir_web "
+    "es SOLO para sitios o páginas web; nunca para programas ni terminales.\n"
     "Responde únicamente con la llamada a la herramienta apropiada."
 )
 
@@ -720,7 +736,7 @@ TOOLS = [
             "description": "Abre una ventana de terminal visible al usuario, "
                            "opcionalmente ejecutando un comando dentro de "
                            "ella. Usar cuando el usuario pide abrir una "
-                           "consola o ver la terminal.",
+                           "consola, terminal, shell o konsole.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -904,7 +920,8 @@ TOOLS = [
             "name": "abrir_web",
             "description": "Abre un sitio o página web en el navegador: "
                            "youtube, google, wikipedia, netflix o una "
-                           "dirección web.",
+                           "dirección web. NO usar para abrir programas ni "
+                           "terminales.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -1378,6 +1395,13 @@ class AsistenteLinuxSkill(FallbackSkill):
             self.log.info(f"AsistenteLinux: imagen por frase -> {imagen}")
             return self._analizar_imagen(imagen, message, ses_id)
 
+        # Abrir terminal/consola con frase clara: resolvemos sin LLM (el
+        # modelo a veces lo confundia con abrir_web y abria el navegador).
+        terminal = self._terminal_por_frase(utt)
+        if terminal is not None:
+            self.log.info(f"AsistenteLinux: terminal por frase cmd={terminal!r}")
+            return self._abrir_terminal(terminal, message)
+
         # 1. Decision del LLM (que comando ejecutar / si es del sistema)
         try:
             decision = self._decide(utt)
@@ -1462,6 +1486,20 @@ class AsistenteLinuxSkill(FallbackSkill):
                 self.log.debug(f"AsistenteLinux: hint '{h}' en '{utt_l}'")
                 return True
         return False
+
+    def _terminal_por_frase(self, utt: str):
+        """Si la frase pide abrir un terminal/consola, devuelve el comando
+        opcional que debe ejecutarse dentro ('ls -la'), o '' para abrir una
+        terminal vacía; None si la frase no pide un terminal."""
+        u = (utt or "").lower()
+        if not any(w in u for w in _TERMINAL_WORDS):
+            return None
+        if not _TERMINAL_ABRE_RE.search(u):
+            return None
+        m = _TERMINAL_CMD_RE.search(utt or "")
+        if m:
+            return m.group(1).strip(" .?¡!¿")
+        return ""
 
     # ------------------------------------------------------------------
     # Seguimiento de conversacion (contexto de la ultima busqueda)
