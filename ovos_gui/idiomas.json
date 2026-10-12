@@ -1,0 +1,20 @@
+{
+    "es": {
+        "nombre": "Español",
+        "ovos": "es-es",
+        "llm": "español",
+        "voz": "es_MX-claude-high"
+    },
+    "en": {
+        "nombre": "English",
+        "ovos": "en-us",
+        "llm": "English",
+        "voz": "en_US-amy-medium"
+    },
+    "ca": {
+        "nombre": "Català",
+        "ovos": "ca-es",
+        "llm": "català",
+        "voz": ""
+    }
+}

@@ -1,0 +1,15 @@
+[Unit]
+Description=OVOS Status Indicator (system tray icon)
+After=ovos.service
+PartOf=ovos.service
+
+[Service]
+Type=simple
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=%h/.local/share/ovos/ovos-wrapper.sh @PYTHON@ %h/.local/share/ovos/status_indicator.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+WantedBy=ovos.service

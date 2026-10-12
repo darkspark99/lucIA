@@ -1,0 +1,12 @@
+[Unit]
+Description=OVOS Push-to-Talk (Ctrl+Alt+Num-)
+PartOf=ovos.service
+
+[Service]
+ExecStart=%h/.local/share/ovos/ovos-wrapper.sh @PYTHON@ %h/.local/share/ovos/ptt/push_to_talk.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target
+WantedBy=ovos.service

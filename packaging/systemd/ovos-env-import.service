@@ -1,0 +1,12 @@
+[Unit]
+Description=OVOS: Import X11 environment variables
+Before=ovos-ptt.service ovos-core.service ovos-status-indicator.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStartPre=/bin/sh -c 'sleep 5'
+ExecStart=/bin/sh -c 'systemctl --user import-environment DISPLAY XAUTHORITY'
+
+[Install]
+WantedBy=ovos.service default.target

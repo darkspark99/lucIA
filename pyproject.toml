@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skill-asistente-linux"
+version = "0.1.0"
+description = "Asistente de Linux por IA - operaciones del sistema con lenguaje natural"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "GPL-3.0-only"}
+authors = [
+    {name = "DarkSpark2099"},
+]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+]
+dependencies = ["requests", "ovos-workshop", "ovos-tts-plugin-piper"]
+
+[tool.setuptools]
+packages = ["skill_asistente_linux"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+skill_asistente_linux = [
+    "locale/*/*.dialog",
+    "locale/*/intent/*.intent",
+    "hints.json",
+]
+
+[project.entry-points."ovos.plugin.skill"]
+skill-asistente-linux = "skill_asistente_linux:AsistenteLinuxSkill"
+
+[project.entry-points."mycroft.plugin.tts"]
+ovos-tts-plugin-piper-multi = "skill_asistente_linux.tts_multi:PiperMultiTTSPlugin"

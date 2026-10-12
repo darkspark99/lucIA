@@ -1,0 +1,1 @@
+El paquete se instaló, pero no pude activar el servicio {servicio}. {detalle}. Puedes probar después con: sudo systemctl enable --now <servicio>.

@@ -1,0 +1,1 @@
+The package was installed, but I could not enable the {servicio} service. {detalle}. You can try later with: sudo systemctl enable --now <service>.

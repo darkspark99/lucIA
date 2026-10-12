@@ -1,0 +1,15 @@
+[Unit]
+Description=OVOS Plasmoid Bridge - Backend para widget de Plasma
+After=ovos.service
+BindsTo=ovos.service
+PartOf=ovos.service
+
+[Service]
+Type=simple
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=@PYTHON@ %h/.local/share/ovos/ovos_plasmoid_bridge.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

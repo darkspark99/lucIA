@@ -1,0 +1,29 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "DarkSpark2099"
+            }
+        ],
+        "Category": "Utilities",
+        "Description": "Widget de interaccion con OVOS - visualizador de voz, transcripcion y estado",
+        "Description[es]": "Widget de interacción con OVOS - visualizador de voz, transcripción y estado",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "tablet",
+            "handset",
+            "desktop"
+        ],
+        "Icon": "audio-input-microphone",
+        "Id": "org.ovos.plasmoid",
+        "License": "GPL-3.0-only",
+        "Name": "OVOS Voice Widget",
+        "Name[es]": "Widget de Voz OVOS",
+        "Website": "https://github.com/OpenVoiceOS"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": [
+        "org.kde.plasma.multimedia"
+    ]
+}
