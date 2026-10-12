@@ -2,4 +2,5 @@ recursive-include skill_asistente_linux/locale *
 include skill_asistente_linux/hints.json
 include LICENSE
 include README.md
+graft assets
 graft packaging

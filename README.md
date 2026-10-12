@@ -1,4 +1,8 @@
-# lucIA — Asistente de Linux por voz (skill OVOS)
+<p align="center">
+  <img src="assets/lucIA_logo.png" alt="lucIA" width="360">
+</p>
+
+<h1 align="center">lucIA — Asistente de Linux por voz (skill OVOS)</h1>
 
 Un asistente por voz **especializado en GNU/Linux**, pensado para personas
 que empiezan o para quien prefiere hablar en vez de teclear. Interactúa con
