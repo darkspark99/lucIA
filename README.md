@@ -73,7 +73,13 @@ solo cuestión de datos, sin tocar el código (ver
 
 ### Ventanas, mouse y teclado (KDE)
 - Minimizar/maximizar/cerrar y cambiar entre ventanas.
-- Mover el cursor (`mueve el mouse a la derecha`).
+- **Ver la pantalla** (captura + modelo de visión): `describe lo que se ve en
+  la pantalla`, `¿qué opinas de esta imagen?`, `¿qué obra es?`. Si reconoce un
+  lugar u obra, encadena una búsqueda en Wikipedia.
+- **Puntero o clic por visión**: `pon el cursor en la barra de búsqueda`,
+  `haz clic en Iniciar sesión`, `haz doble clic en …`, `clic derecho en …`. Se
+  hace una captura, el modelo de visión localiza el elemento y `xdotool` mueve
+  el cursor (o hace clic) en sus coordenadas reales.
 - Dictar texto, presionar Enter, borrar lo último.
 - Leer el texto seleccionado en pantalla.
 
@@ -115,6 +121,9 @@ No hay wake-word: el micrófono solo se arma bajo demanda.
   (configurable en `settings.json` del skill).
 - KDE Plasma (opcional, para el widget y la ventana de chat).
 - `pkexec`/polkit y un terminal (`konsole` por defecto, ajustable).
+- Para **ver la pantalla y controlar el puntero por visión**: `xdotool` y una
+  utilidad de captura (`spectacle`, `gnome-screenshot` o `import`) + un modelo
+  de visión en Ollama (`qwen2.5vl:7b`).
 - Python con las dependencias de OVOS. Si usas el venv estándar
   (`~/.venvs/ovos/`), `install.sh` lo detecta y lo usa en los servicios;
   si no, cae en el `python3` del sistema.
@@ -223,7 +232,7 @@ en datos:
 |---|---|---|
 | `idiomas.json` | `~/.local/share/ovos/idiomas.json` | Tabla de idiomas: etiqueta, código OVOS, nombre para el LLM y voz TTS |
 | Plantillas de diálogo | `skill_asistente_linux/locale/<ovos>/*.dialog` | Textos que pronuncia el asistente (120 por idioma) |
-| Intents | `skill_asistente_linux/locale/<ovos>/intent/*.intent` | Frases que reconoce por voz/texto (ratón, modelos, identidad) |
+| Intents | `skill_asistente_linux/locale/<ovos>/intent/*.intent` | Frases que reconoce por voz/texto (puntero/visión, modelos, identidad) |
 | `hints.json` | `skill_asistente_linux/hints.json` | Palabras clave por idioma (operaciones de sistema, seguimiento, cerrar chat); si falta un idioma, usa las del español |
 | Plugin TTS | `skill_asistente_linux/tts_multi.py` | Elige la voz piper según el idioma de la respuesta |
 
