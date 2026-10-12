@@ -1205,6 +1205,12 @@ class AsistenteLinuxSkill(FallbackSkill):
         except Exception as e:
             self.log.warning(f"AsistenteLinux: no se registró el intent"
                              f" de identidad: {e}")
+        try:
+            self.register_intent_file("terminal.intent",
+                                      self._on_terminal_intent)
+        except Exception as e:
+            self.log.warning(f"AsistenteLinux: no se registró el intent"
+                             f" de terminal: {e}")
 
     def _fija_lang_salida(self):
         """Deja el idioma de salida = idioma en que respondemos.
@@ -3237,6 +3243,17 @@ class AsistenteLinuxSkill(FallbackSkill):
         nombre = _nombre_asistente()
         self.speak_dialog("me_llamo", {"nombre": nombre})
         return True
+
+    def _on_terminal_intent(self, message: Message) -> bool:
+        """Intent padatious 'terminal.intent': abre la terminal (con el
+        comando indicado, si lo hay). Se dispara antes que skills genéricos
+        como 'abre {sitio}', que si no intentarían abrir una URL."""
+        comando = (message.data.get("comando") or "").strip()
+        if not comando:
+            utt = (message.data.get("utterance") or "").strip()
+            cmd = self._terminal_por_frase(utt)
+            comando = cmd if cmd else ""
+        return self._abrir_terminal(comando, message)
 
     def _buscar_en_cascada(self, paquete: str, message: Message,
                            ses_id: str) -> bool:
