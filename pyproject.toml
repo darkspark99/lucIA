@@ -3,9 +3,9 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "skill-asistente-linux"
+name = "lucia"
 version = "0.1.0"
-description = "Asistente de Linux por IA - operaciones del sistema con lenguaje natural"
+description = "lucIA - asistente de Linux por IA: operaciones del sistema en lenguaje natural"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "GPL-3.0-only"}
@@ -29,7 +29,7 @@ skill_asistente_linux = [
 ]
 
 [project.entry-points."ovos.plugin.skill"]
-skill-asistente-linux = "skill_asistente_linux:AsistenteLinuxSkill"
+lucia = "skill_asistente_linux:AsistenteLinuxSkill"
 
 [project.entry-points."mycroft.plugin.tts"]
 ovos-tts-plugin-piper-multi = "skill_asistente_linux.tts_multi:PiperMultiTTSPlugin"

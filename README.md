@@ -1,4 +1,4 @@
-# Asistente de Linux por voz (skill OVOS)
+# lucIA — Asistente de Linux por voz (skill OVOS)
 
 Un asistente por voz **especializado en GNU/Linux**, pensado para personas
 que empiezan o para quien prefiere hablar en vez de teclear. Interactúa con
@@ -121,8 +121,8 @@ No hay wake-word: el micrófono solo se arma bajo demanda.
 
 ### Instalador completo
 ```bash
-git clone <url-de-este-repo> skill-asistente-linux
-cd skill-asistente-linux
+git clone https://github.com/darkspark99/lucIA.git
+cd lucIA
 ./packaging/install.sh
 systemctl --user restart ovos.service
 ```
@@ -210,7 +210,8 @@ aplica el nuevo aspecto en segundos (si no, quita y añade el widget).
 | `~/.config/ovos-asistente.json` | Apariencia del widget (`gui.waveform_color`, `gui.waveform_style`, `gui.waveform_opacity`, `gui.color_listening/thinking/speaking/idle`), `gui.idioma` (idioma de las ventanas), `tts.voice` guardada, `nombre_asistente` y `modelo.actual` |
 | `~/.config/mycroft/mycroft.conf` | Config OVOS: `tts.module` (`ovos-tts-plugin-piper-multi`), `tts.ovos-tts-plugin-piper-multi.voice`, `secondary_langs` (idiomas extra que se reconocen), STT, unidades, etc. |
 | `~/.local/share/ovos/idiomas.json` | Tabla de idiomas soportados (nombre, código OVOS, nombre para el LLM y voz). Es la **fuente única** para añadir idiomas. Ver [Idiomas y voz](#idiomas-y-voz-multilingüe) |
-| `~/.local/share/ovos/skills/skill-asistente-linux/settings.json` | Ajustes del skill (se crea con los valores por defecto; editalo para sobreescribir) |
+| `~/.config/mycroft/skills/lucia/settings.json` | Ajustes del skill (lo gestiona OVOS; normalmente solo el marcador de primera ejecución) |
+| Nombre del asistente | `nombre_asistente` en `~/.config/ovos-asistente.json` (por defecto `lucIA`) |
 
 ### Idiomas y voz (multilingüe)
 
@@ -572,7 +573,7 @@ El texto completo está en el archivo [`LICENSE`](LICENSE), en la raíz del
 repositorio. Resumen oficial: <https://www.gnu.org/licenses/gpl-3.0.html>.
 
 ```
-Asistente de Linux por voz (skill OVOS)
+lucIA — Asistente de Linux por voz (skill OVOS)
 Copyright (C) 2026 DarkSpark2099
 
 Este programa es software libre: puedes redistribuirlo y/o modificarlo

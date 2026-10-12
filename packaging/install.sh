@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-#  skill-asistente-linux - instalador para cualquier distro
+#  lucIA - instalador para cualquier distro
 #  Instala y configura todo el asistente de voz para Linux:
 #   - skill OVOS (plugin pip) con el fallback de conversación
 #   - widget plasmoid (onda de voz + icono de estado en KDE)

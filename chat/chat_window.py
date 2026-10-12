@@ -492,7 +492,7 @@ def on_speak(msg):
     # propias respuestas para que suenen; las de otros skills (p. ej.
     # salutaciones) no: aqui se espejan tambien para que siempre se oigan.
     skill = (msg.data or {}).get("meta", {}) or {}
-    if str(skill.get("skill", "")).startswith("skill-asistente-linux"):
+    if str(skill.get("skill", "")).startswith("lucia"):
         return
     ovos_bus.emit(OVOSMessage("speak", {
         "utterance": u,
