@@ -38,15 +38,16 @@ if ! command -v pip3 >/dev/null 2>&1; then
 fi
 
 echo "== Skill OVOS (plugin) =="
-pip3 install "$REPO" --break-system-packages 2>/dev/null \
-    || pip3 install --user "$REPO" 2>/dev/null \
-    || pip3 install "$REPO"
-
 # Interprete con las dependencias de OVOS: el venv si existe, si no python3.
+# Importante: instalar el skill en ESTE interprete (el que usa OVOS); si no,
+# OVOS (en su venv) no encontraria el plugin.
 PYTHON="$(command -v python3)"
 if [ -x "$HOME/.venvs/ovos/bin/python3" ]; then
     PYTHON="$HOME/.venvs/ovos/bin/python3"
 fi
+"$PYTHON" -m pip install "$REPO" --break-system-packages 2>/dev/null \
+    || "$PYTHON" -m pip install --user "$REPO" 2>/dev/null \
+    || "$PYTHON" -m pip install "$REPO"
 
 # Instala una unit systemd sustituyendo @PYTHON@ por el interprete detectado.
 instala_unit() {
