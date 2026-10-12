@@ -3577,7 +3577,7 @@ class AsistenteLinuxSkill(FallbackSkill):
                     self.settings.get("terminal", "konsole"))
                 try:
                     subprocess.Popen(
-                        [ejecutable, "--hold", "-e", "bash", script])
+                        [ejecutable, "-e", "bash", script])
                     self.speak_dialog("guiando_docker")
                 except Exception as e:
                     self.log.exception(
@@ -3653,7 +3653,7 @@ class AsistenteLinuxSkill(FallbackSkill):
         ejecutable = os.path.expanduser(
             self.settings.get("terminal", "konsole"))
         try:
-            subprocess.Popen([ejecutable, "--hold", "-e", "bash", script])
+            subprocess.Popen([ejecutable, "-e", "bash", script])
             self.speak_dialog("desde_fuente", {"paquete": paquete})
         except Exception as e:
             self.log.exception(
@@ -4182,8 +4182,11 @@ class AsistenteLinuxSkill(FallbackSkill):
                 if not self._seguro(cmd):
                     self.speak_dialog("comando_denegado")
                     return True
-                subprocess.Popen([ejecutable, "--hold", "-e",
-                                  "/bin/bash", "-c", cmd])
+                # Ejecuta el comando y deja una shell interactiva abierta:
+                # asi, aunque el comando falle o no exista, el usuario puede
+                # seguir escribiendo (con --hold la ventana quedaba muerta).
+                subprocess.Popen([ejecutable, "-e", "/bin/bash", "-c",
+                                  f"{cmd}; exec /bin/bash"])
             else:
                 subprocess.Popen([ejecutable])
             self.speak_dialog("terminal_abierta")
